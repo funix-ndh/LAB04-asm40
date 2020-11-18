@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<div layout:fragment="content" class="p-5">
+  <form class="row" th:action="@{/create-product}" enctype="multipart/form-data" method="post"
+        th:object="${createProductRequest}">
+    <div class="col-6">
+      <div class="form-group">
+        <label for="productName">Product Name</label>
+        <input type="text" class="form-control" id="productName" placeholder="Product Name"
+               th:field="*{productName}"
+               th:classappend="${#fields.hasErrors('productName') ? 'is-invalid' : ''}" />
+        <div th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}"
+             class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label for="shortDescription">Short Description</label>
+        <textarea rows="2" class="form-control" id="shortDescription" placeholder="Short Description"
+                  th:field="*{shortDescription}"
+                  th:classappend="${#fields.hasErrors('shortDescription') ? 'is-invalid' : ''}"></textarea>
+        <div th:if="${#fields.hasErrors('shortDescription')}" th:errors="*{shortDescription}"
+             class="invalid-feedback"></div>
+      </div>
+      <div class="form-group">
+        <label for="detailDescription">Detail Description</label>
+        <textarea rows="2" class="form-control" id="detailDescription" placeholder="Detail Description"
+                  th:field="*{detailDescription}"
+                  th:classappend="${#fields.hasErrors('detailDescription') ? 'is-invalid' : ''}"></textarea>
+        <div th:if="${#fields.hasErrors('detailDescription')}" th:errors="*{detailDescription}"
+             class="invalid-feedback">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number" class="form-control" id="price" placeholder="Price" step="0.01"
+               th:field="*{price}" th:classappend="${#fields.hasErrors('price') ? 'is-invalid' : ''}" />
+        <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}"
+             class="invalid-feedback">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="specialPrice">Special Price</label>
+        <input type="number" class="form-control" id="specialPrice" placeholder="Special Price" step="0.01"
+               th:field="*{specialPrice}"
+               th:classappend="${#fields.hasErrors('specialPrice') ? 'is-invalid' : ''}" />
+        <div th:if="${#fields.hasErrors('specialPrice')}" th:errors="*{specialPrice}"
+             class="invalid-feedback">
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <label for="productImage">Product image</label>
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="productImage"
+               th:field="*{productImage}"
+               th:classappend="${#fields.hasErrors('productImage') ? 'is-invalid' : ''}">
+        <label class="custom-file-label" for="productImage">Choose file</label>
+        <div th:if="${#fields.hasErrors('productImage')}" th:errors="*{productImage}"
+             class="invalid-feedback">
+        </div>
+      </div>
+      <script>
+        $('.custom-file-input').on("change", function () {
+          const fileName = $(this).val().split("\\").pop();
+          $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+      </script>
+    </div>
+    <button class="btn btn-primary" type="submit">Create Product</button>
+  </form>
+</div>
+</body>
+</html>

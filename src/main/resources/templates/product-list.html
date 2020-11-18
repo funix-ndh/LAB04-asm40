@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<div layout:fragment="content" class="p-5">
+  <div class="row">
+    <div class="col-3 p-2" th:each="product : ${productList}">
+      <img class="rounded" th:src="@{~/images/{url}(url=${product.imgUrl})}" width="200" height="200" />
+      <p th:text="${product.name}"></p>
+      <div class="row">
+
+        <div class="col">
+          <p class="text-danger" th:if="${product.specialPrice != null}"
+             th:text="${#numbers.formatCurrency(product.specialPrice)}"></p>
+          <p th:if="${product.specialPrice != null}">
+            <s th:text="${#numbers.formatCurrency(product.price)}"></s>
+          </p>
+          <p class="text-danger" th:if="${product.specialPrice == null}"
+             th:text="${#numbers.formatCurrency(product.price)}"></p>
+        </div>
+
+        <div class="col" th:if="${product.specialPrice != null}">
+          <p><a class="text-light bg-danger p-1"
+                th:text="'-'+${#numbers.formatDecimal((1.0 * (product.price - product.specialPrice) / product.price)*100, 1, 'POINT', 2, 'COMMA')}+'%'"></a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
